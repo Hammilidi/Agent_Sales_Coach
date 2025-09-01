@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM Agent Sales Coach</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>CRM Agent Sales Coach</h1>
+        <div class="form-section">
+            <label for="leadSelect">Sélectionnez un Lead :</label>
+            <select id="leadSelect">
+                <option>Chargement...</option>
+            </select>
+            <button id="triggerWorkflow">Déclencher Workflow</button>
+        </div>
+        
+        <div id="workflowStatus" class="status"></div>
+        
+        <div id="emailDraft" class="email-draft">
+            <h2>Brouillon Email</h2>
+            <p><strong>À :</strong> <span id="emailTo"></span></p>
+            <p><strong>Sujet :</strong> <span id="emailSubject"></span></p>
+            <p><strong>Corps :</strong></p>
+            <div id="emailBody" class="email-body"></div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

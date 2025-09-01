@@ -1,0 +1,535 @@
+{
+  "name": "CRM (Agent Sales Coach)",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "1ZcbtAW9YYSaym5punRyW4BiqXcrrAEOs9U0bk63fvOI",
+          "mode": "list",
+          "cachedResultName": "Team 3 Dataset - CRM : Leads / Interactions",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZcbtAW9YYSaym5punRyW4BiqXcrrAEOs9U0bk63fvOI/edit?usp=drivesdk"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        0,
+        -20
+      ],
+      "id": "517a5afd-a21c-45f4-aafb-3585cc062cae",
+      "name": "Google Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "P6YHwFi4AXcynJgZ",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1ZcbtAW9YYSaym5punRyW4BiqXcrrAEOs9U0bk63fvOI",
+          "mode": "list",
+          "cachedResultName": "Team 3 Dataset - CRM : Leads / Interactions",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZcbtAW9YYSaym5punRyW4BiqXcrrAEOs9U0bk63fvOI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZcbtAW9YYSaym5punRyW4BiqXcrrAEOs9U0bk63fvOI/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        280,
+        -160
+      ],
+      "id": "18c14200-12b1-4977-9793-aae3481dfef3",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "gN3EEWklCCUUvr8G",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1ZcbtAW9YYSaym5punRyW4BiqXcrrAEOs9U0bk63fvOI",
+          "mode": "list",
+          "cachedResultName": "Team 3 Dataset - CRM : Leads / Interactions",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZcbtAW9YYSaym5punRyW4BiqXcrrAEOs9U0bk63fvOI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1603396845,
+          "mode": "list",
+          "cachedResultName": "Interactions",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZcbtAW9YYSaym5punRyW4BiqXcrrAEOs9U0bk63fvOI/edit#gid=1603396845"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        280,
+        80
+      ],
+      "id": "de5a8707-096c-452c-9174-47f4036b1349",
+      "name": "Google Sheets1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "gN3EEWklCCUUvr8G",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -300,
+        -20
+      ],
+      "id": "9eb7187f-e195-4ba6-aa70-745e2d3282bb",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "Rôle de l’IA : Tu es un assistant commercial intelligent, spécialisé en CRM, scoring de leads et personnalisation d’emails B2B. Ton objectif est d’analyser les données du lead, enrichir les informations, appliquer les règles de gestion, puis générer un email clair, professionnel et persuasif. 🔹 Contexte du workflow (mode manuel) : L’utilisateur a sélectionné un lead spécifique dans le CRM. Données du lead : - Nom du lead : {lead['customer']} - Revenu attendu : {lead['expected_revenue']} € - Probabilité : {lead['probability']}% - Statut : {lead['stage_id']} - Dernières interactions : {lead.get('last_interaction', 'Non disponible')} - Sentiment : {lead.get('sentiment', 'Neutre')} - Nombre interactions positives : {lead.get('positive_interactions', 0)} - Dernier contact (jours) : {lead.get('days_since_create', 'N/A')} --- ⿡ Analyse du lead - Résume en 1–2 phrases l’état actuel du lead. ⿢ Scoring et règles - Donne un Lead Score /100 + justification (1 phrase). - Applique les règles : • Si Dernier contact > 7j → recommander relance • Si Probabilité > 70% et interactions positives > 2 → recommander offre finale • Si Stage = New → générer présentation + résumé besoin ⿣ Email personnalisé - Adapte le ton selon le sentiment (positif, neutre, négatif/hésitant). - Rédige un paragraphe de 80–120 mots incluant : • {lead['customer']} ({lead.get('company','')}) • Revenu attendu, probabilité, interactions récentes. ⿤ Fusion avec template - Placeholders autorisés : {{LeadName}}, {{Company}}, {{MeetingLink}}. - Style professionnel et orienté action.",
+        "options": {
+          "systemMessage": "Tu es un assistant commercial intelligent, spécialisé en CRM, scoring de leads et personnalisation d’emails B2B.\nTon objectif est d’analyser les données du lead, enrichir les informations, adapter le ton du message en fonction du contexte, puis générer un email clair, professionnel et persuasif.",
+          "maxIterations": 10,
+          "returnIntermediateSteps": true,
+          "passthroughBinaryImages": true,
+          "batching": {
+            "batchSize": 20,
+            "delayBetweenBatches": 20
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        560,
+        -60
+      ],
+      "id": "c15ec5a0-5ac7-44ed-87ed-9fecb0b97ceb",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1-mini"
+        },
+        "options": {
+          "frequencyPenalty": 0.2,
+          "maxRetries": 2
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        560,
+        320
+      ],
+      "id": "0681baf1-cd24-442e-b176-874138d08098",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "hRpqgSO6iCPsIbxc",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "draft",
+        "subject": "Test-Karizma",
+        "emailType": "html",
+        "message": "<h1>Bonjour </h1>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.1,
+      "position": [
+        740,
+        340
+      ],
+      "id": "30137eee-2058-4ef6-9496-f8b01fc2a72e",
+      "name": "Gmail",
+      "webhookId": "e3504bb2-b9f0-4bdf-83c9-0e89057a8471",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "e6W9NM1kcH5GuDWs",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 2
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -460,
+        940
+      ],
+      "id": "44bd0453-84e3-418d-be97-6ea90f2f2323",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "1ZcbtAW9YYSaym5punRyW4BiqXcrrAEOs9U0bk63fvOI",
+          "mode": "list",
+          "cachedResultName": "Team 3 Dataset - CRM : Leads / Interactions",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZcbtAW9YYSaym5punRyW4BiqXcrrAEOs9U0bk63fvOI/edit?usp=drivesdk"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -240,
+        940
+      ],
+      "id": "4f21ead5-012f-4aa2-b98e-804fc625e939",
+      "name": "Google Drive1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "P6YHwFi4AXcynJgZ",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1ZcbtAW9YYSaym5punRyW4BiqXcrrAEOs9U0bk63fvOI",
+          "mode": "list",
+          "cachedResultName": "Team 3 Dataset - CRM : Leads / Interactions",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZcbtAW9YYSaym5punRyW4BiqXcrrAEOs9U0bk63fvOI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZcbtAW9YYSaym5punRyW4BiqXcrrAEOs9U0bk63fvOI/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        140,
+        740
+      ],
+      "id": "8aa882f0-9f7d-4094-8605-513992a83211",
+      "name": "Google Sheets2",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "gN3EEWklCCUUvr8G",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1ZcbtAW9YYSaym5punRyW4BiqXcrrAEOs9U0bk63fvOI",
+          "mode": "list",
+          "cachedResultName": "Team 3 Dataset - CRM : Leads / Interactions",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZcbtAW9YYSaym5punRyW4BiqXcrrAEOs9U0bk63fvOI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1603396845,
+          "mode": "list",
+          "cachedResultName": "Interactions",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZcbtAW9YYSaym5punRyW4BiqXcrrAEOs9U0bk63fvOI/edit#gid=1603396845"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        140,
+        1100
+      ],
+      "id": "dbcb74ba-720e-47c4-bed0-d02b528a2fab",
+      "name": "Google Sheets3",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "gN3EEWklCCUUvr8G",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "Rôle de l’IA : Tu es un assistant commercial intelligent, spécialisé en CRM, scoring de leads et personnalisation d’emails B2B. Ton objectif est d’analyser les données du lead, enrichir les informations, appliquer les règles de gestion, puis générer un email clair, professionnel et persuasif. 🔹 Contexte du workflow (mode manuel) : L’utilisateur a sélectionné un lead spécifique dans le CRM. Données du lead : - Nom du lead : {lead['customer']} - Revenu attendu : {lead['expected_revenue']} € - Probabilité : {lead['probability']}% - Statut : {lead['stage_id']} - Dernières interactions : {lead.get('last_interaction', 'Non disponible')} - Sentiment : {lead.get('sentiment', 'Neutre')} - Nombre interactions positives : {lead.get('positive_interactions', 0)} - Dernier contact (jours) : {lead.get('days_since_create', 'N/A')} --- ⿡ Analyse du lead - Résume en 1–2 phrases l’état actuel du lead. ⿢ Scoring et règles - Donne un Lead Score /100 + justification (1 phrase). - Applique les règles : • Si Dernier contact > 7j → recommander relance • Si Probabilité > 70% et interactions positives > 2 → recommander offre finale • Si Stage = New → générer présentation + résumé besoin ⿣ Email personnalisé - Adapte le ton selon le sentiment (positif, neutre, négatif/hésitant). - Rédige un paragraphe de 80–120 mots incluant : • {lead['customer']} ({lead.get('company','')}) • Revenu attendu, probabilité, interactions récentes. ⿤ Fusion avec template - Placeholders autorisés : {{LeadName}}, {{Company}}, {{MeetingLink}}. - Style professionnel et orienté action.",
+        "options": {
+          "systemMessage": "Tu es un assistant commercial intelligent, spécialisé en CRM, scoring de leads et personnalisation d’emails B2B.\nTon objectif est d’analyser les données du lead, enrichir les informations, adapter le ton du message en fonction du contexte, puis générer un email clair, professionnel et persuasif.",
+          "maxIterations": 10,
+          "returnIntermediateSteps": true,
+          "passthroughBinaryImages": true,
+          "batching": {
+            "batchSize": 20,
+            "delayBetweenBatches": 20
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        640,
+        920
+      ],
+      "id": "3b97c610-54b3-42bb-ace3-0fd3d779647e",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1-mini"
+        },
+        "options": {
+          "frequencyPenalty": 0.2,
+          "maxRetries": 2
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        640,
+        1380
+      ],
+      "id": "d8577543-6f3a-4a03-a8f1-d06abeeab55a",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "hRpqgSO6iCPsIbxc",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "hackathon@kaifact.ai",
+        "toEmail": "=yonlifidelis2@gmail.com",
+        "subject": "Test-Karizma-Automatique",
+        "html": "<!doctype html>\n<html lang=\"fr\">\n  <head>\n    <meta charset=\"utf-8\">\n    <meta name=\"x-apple-disable-message-reformatting\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Email simple</title>\n  </head>\n  <body style=\"margin:0; padding:0; background:#f4f4f4;\">\n    <!-- Pré-en-tête (aperçu) -->\n    <div style=\"display:none; max-height:0; overflow:hidden; opacity:0; color:transparent;\">\n      [Texte d’aperçu court de l’email]\n    </div>\n\n    <table role=\"presentation\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"background:#f4f4f4;\">\n      <tr>\n        <td align=\"center\" style=\"padding:24px;\">\n          <table role=\"presentation\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"max-width:600px; background:#ffffff; border-radius:8px; overflow:hidden;\">\n            <!-- En-tête -->\n            <tr>\n              <td style=\"padding:20px 24px; background:#0f172a; color:#ffffff; font-family:Arial,Helvetica,sans-serif; font-size:18px; font-weight:bold;\">\n                [Karizma Group]\n              </td>\n            </tr>\n\n            <!-- Corps -->\n            <tr>\n              <td style=\"padding:24px; font-family:Arial,Helvetica,sans-serif; color:#0f172a; font-size:15px; line-height:1.6;\">\n                <p style=\"margin:0 0 12px 0;\">Bonjour [Fidèle],</p>\n                <p style=\"margin:0 0 16px 0;\">\n                  [Voici mon message. Très simple !]\n                </p>\n\n                <!-- Bouton -->\n                <table role=\"presentation\" cellpadding=\"0\" cellspacing=\"0\" style=\"margin:16px 0;\">\n                  <tr>\n                    <td align=\"center\" style=\"border-radius:6px; background:#2563eb;\">\n                      <a href=\"[https://karizma-group.com/]\" target=\"_blank\"\n                         style=\"display:inline-block; padding:12px 18px; font-family:Arial,Helvetica,sans-serif; font-size:14px; color:#ffffff; text-decoration:none; border-radius:6px;\">\n                        [Rejoignez-nous]\n                      </a>\n                    </td>\n                  </tr>\n                </table>\n\n                <p style=\"margin:16px 0 0 0;\">\n                  Bien à vous,<br>\n                  [YONLI Fidèle]<br>\n                  [Rôle] – [Responsable Marketing]\n                </p>\n              </td>\n            </tr>\n\n            <!-- Pied -->\n            <tr>\n              <td style=\"padding:16px 24px; font-family:Arial,Helvetica,sans-serif; color:#64748b; font-size:12px; background:#f8fafc;\">\n                [Casablanca| +212716990681] •\n                <a href=\"[lien-désabonnement]\" target=\"_blank\" style=\"color:#64748b; text-decoration:underline;\">Se désabonner</a>\n              </td>\n            </tr>\n          </table>\n\n          <!-- Lien de secours -->\n          <p style=\"margin:12px 0 0 0; font-family:Arial,Helvetica,sans-serif; font-size:12px; color:#94a3b8;\">\n            Si le bouton ne fonctionne pas, copiez-collez ce lien dans votre navigateur :\n            <a href=\"[https://karizma-group.com/]\" target=\"_blank\" style=\"color:#64748b;\">[https://karizma-group.com/]</a>\n          </p>\n        </td>\n      </tr>\n    </table>\n  </body>\n</html>\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSendTool",
+      "typeVersion": 2.1,
+      "position": [
+        860,
+        1380
+      ],
+      "id": "1f491f2c-b2e7-44e4-8474-897c122d6707",
+      "name": "Send Email",
+      "webhookId": "9acd2cda-956c-419b-acec-0edcdcdbc66c",
+      "credentials": {
+        "smtp": {
+          "id": "JEjz6F51A1zsaXLo",
+          "name": "SMTP account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Drive": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        []
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Drive1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive1": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Google Sheets3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Email": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets2": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets3": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "6215f67d-2202-4392-99ac-8ffcd35ca4a0",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c4adb0987c34f7ad0502801d564179e1843f75ecb87b8e1072e7b6faddd12f46"
+  },
+  "id": "okVejTKUznpARTei",
+  "tags": []
+}
