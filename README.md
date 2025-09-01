@@ -19,13 +19,11 @@ Construire un **agent intelligent** capable de :
 
 ---
 
-## 📦 Livrables attendus
 
 ### 1️⃣ Workflow manuel
 **Pipeline :**
 `Webhook → Scoring/Règles → Email ou Création d’activité`
 
-**Mini démo :**  
 Création d’un lead → Action automatique de l’agent :
 - Si **Dernier contact > 7j** → proposer *Email de relance*.
 - Si **Probability > 70%** ET **Interactions positives > 2** → proposer *Offre finale*.
@@ -65,9 +63,9 @@ Création d’un lead → Action automatique de l’agent :
 ---
 
 ## 🛠️ Stack technique (suggestion)
-- **Odoo CRM (API/Webhooks)**  
+- **Google Sheet**  
 - **Agent IA** (scoring, analyse de sentiment, règles métiers)  
-- **Service d’emailing** (SMTP / API SendGrid / Mailgun)  
-- **Workflow orchestration** (ex. n8n, Airflow ou règles custom Python)  
+- **Service d’emailing** (SMTP / Gmail)  
+- **Workflow orchestration** avec n8n  
 
 ---
